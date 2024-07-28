@@ -1,0 +1,27 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width = device-width, initial-scale = 1.0">
+
+        <script src="https://cdn.tailwindcss.com"></script>
+        <title>{% block title %}{% endblock %} | Weather</title>
+    </head>
+    <body class="bg-[url('core/images/bgImage.jpg')] bg-center bg-cover bg-no-repeat min-h-screen flex flex-col gap-5 items-center p-10">
+        <div class="w-fit flex items-center">
+            <h1 class="text-2xl font-semibold text-white">Weather Me</h1>
+            <img src="{% static 'core/images/116.png'%}" alt="App Icon" class="w-14 h-14">
+        </div>
+        <form action="" class="flex gap-2 w-4/5 md:w-3/5 lg:w[-35%] items-center justify-center" method = "get">
+            <input type="text" name = "city" 
+            class="py-2 px-3 w-full rounded-full bg-white text-white text-lg outline ease-in-out duration-500 outline-2 outline-white/70 backdrop-blur-lg focus:bg-whtie/20" placeholder="Enter a city...">
+            <button type="submit">
+                <ion_icon class="text-white text-2xl p-3 font-black rounded-full bg-white/50" name="search">
+
+                </ion_icon>
+            </button>
+        </form>
+    </body>
+</html>
