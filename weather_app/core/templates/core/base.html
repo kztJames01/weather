@@ -45,7 +45,7 @@
 
         <div class="flex w-full justify-between bg-[#0198afb6] p-3 backdrop-blur-2xl rounded-2xl shadow-2xl cursor-pointer ease-in-out duration-500 hover:scale-[105%] md:w-3/5 lg:w-[35%]">
             <div id="left" class="flex flex-col justify-start">
-                <img src="{{icon.url}}" alt="">
+                <img src="{{ icon_url }}" alt="">
                 <p class="font-bold text-4xl text-white">{{weather}}</p>
                 <p class="text-semibold text-white">{{weather_description}}</p>
             </div>
@@ -62,8 +62,8 @@
                 <div class="flex w-full justify-around bg-white/30 p-1 rounded-lg items-center gap-6">
                     <ion-icon class="w-8 h-8 text-white" name="rainy"></ion-icon>
                     <div class="">
-                        <p class="font-bold text-2xl text-right text-[#ff5a00]">
-                            {{humidity}} %
+                        <p class="font-bold text-2xl text-right text-black">
+                            {{humidity}} 
                         </p>
                         <p class="text-sm text-white text-right">Humidity</p>
                     </div>
