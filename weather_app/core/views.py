@@ -22,7 +22,7 @@ def get_weather_data(city):
         response = None
     
 
-def base(request):
+def index(request):
     city = request.GET.get('city')
     icon_url = 'https://openweathermap.org/img/wn/10d@2x.png'
     weather = None
@@ -51,10 +51,10 @@ def base(request):
             temperature = weather_data_result['main']['temp']
         else:
             
-            return render(request,'core/base.html')
+            return render(request,'core/index.html')
         
 
-    return render(request, 'core/base.html',{
+    return render(request, 'core/index.html',{
         'icon_url':icon_url,
         'weather': weather,
         'weather_description': weather_description,
