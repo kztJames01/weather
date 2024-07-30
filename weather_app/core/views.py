@@ -14,7 +14,6 @@ def get_weather_data(city):
     try:
         response = requests.get(base_url,params=parameters)
         if response.status_code == 200:
-            
             return response.json()
         else: 
             return None
@@ -28,11 +27,9 @@ def index(request):
     if city:
         weather_data_result = get_weather_data(city)
         if weather_data_result is not None:
-            weather_data = json.dumps(weather_data_result,indent=4)
-            print(weather_data)
+            
             icon_id = weather_data_result['weather'][0]['icon']
             icon_url = f"https://openweathermap.org/img/wn/{icon_id}@2x.png"
-
             weather = weather_data_result['weather'][0]['main']
             weather_description = weather_data_result['weather'][0]['description']
             city = weather_data_result['name']
@@ -40,7 +37,7 @@ def index(request):
             wind_speed = weather_data_result['wind']['speed']
             pressure = weather_data_result['main']['pressure']
             humidity = weather_data_result['main']['humidity']
-            temperature = weather_data_result['main']['temp']
+            temperature = round(weather_data_result['main']['temp'])
         else:
             
             return render(request,'core/index.html')
@@ -58,9 +55,8 @@ def index(request):
         'temperature': temperature,
     })
 def daily(city):
-    #Api_key = "d58c475f4f008441996e9bb1a2343ed3"
-    cnt = 7
-    Api_key = "2b460c2135a2d363006e86ad30592fdf"
+    Api_key = "d58c475f4f008441996e9bb1a2343ed3"
+    #Api_key = "2b460c2135a2d363006e86ad30592fdf"
     base_url = f"https://api.openweathermap.org/data/2.5/forecast"
     parameters = {
         'q' : city,
@@ -70,7 +66,26 @@ def daily(city):
     try:
         response = requests.get(base_url,params=parameters)
         if response.status_code == 200:
-            return response.json()
+            data = response.json()
+
+            daily_forecast = {}
+            for entry in data['list']:
+                date = datetime.fromtimestamp(entry['dt']).strftime('%Y-%m-%d')
+                if date not in daily_forecast:
+                    daily_forecast[date] = {
+                        'date': date,
+                        'icon': entry['weather'][0]['icon'],
+                        'temp_min': entry['main']['temp_min'],
+                        'temp_max': entry['main']['temp_max'],
+                    }
+                else:
+                    daily_forecast[date]['temp_min'] = min(daily_forecast[date]['temp_min'], entry['main']['temp_min'])
+                    daily_forecast[date]['temp_max'] = max(daily_forecast[date]['temp_max'], entry['main']['temp_max'])
+
+            daily_forecast_list = list(daily_forecast.values())
+            daily_forecast_list.sort(key=lambda x: datetime.strptime(x['date'], '%Y-%m-%d'))
+            print(daily_forecast_list)
+            return daily_forecast_list
         else: 
             return None
     except requests.exceptions.RequestException as e:
@@ -79,21 +94,22 @@ def daily(city):
 def detail(request,city):
     forecast = daily(city)
     weather_data_result = get_weather_data(city)
-    
-    if weather_data_result:
+    if weather_data_result and forecast:
+        weather_data = json.dumps(forecast,indent=4)
+        print(weather_data)
         city = weather_data_result['name']
         weather = weather_data_result['weather'][0]['main']
-        temperature = weather_data_result['main']['temp']
+        temperature = round(weather_data_result['main']['temp'])
+        temp_max = round(weather_data_result['main']['temp_max'])
+        temp_min = round(weather_data_result['main']['temp_min'])
+        # Get forecast data from json
         forecast_data = []
-        for day in forecast['list']:
-            date = datetime.fromtimestamp(day['dt']).strftime('%A')
-            icon_id = day['weather'][0]['icon']
-            icon_url = f"https://openweathermap.org/img/wn/{icon_id}@2x.png"
+        for day in forecast:
             day_weather = {
-                'date': date,
-                'icon': icon_url,
-                'temp_min': day['main']['temp_min'],
-                'temp_max': day['main']['temp_max']
+                'date': datetime.strptime(day['date'], '%Y-%m-%d').strftime('%A'),
+                'icon':f"https://openweathermap.org/img/wn/{day['icon']}@2x.png",
+                'temp_min': round(day['temp_min'],),
+                'temp_max': round(day['temp_max']),
             }
             forecast_data.append(day_weather)
     else:
@@ -103,6 +119,8 @@ def detail(request,city):
         'weather':weather,
         'temperature':temperature,
         'forecast':forecast_data,
+        'temp_max':temp_max,
+        'temp_min':temp_min
         })
 
 
