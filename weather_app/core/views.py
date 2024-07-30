@@ -27,7 +27,6 @@ def index(request):
     if city:
         weather_data_result = get_weather_data(city)
         if weather_data_result is not None:
-            
             icon_id = weather_data_result['weather'][0]['icon']
             icon_url = f"https://openweathermap.org/img/wn/{icon_id}@2x.png"
             weather = weather_data_result['weather'][0]['main']
@@ -67,7 +66,7 @@ def daily(city):
         response = requests.get(base_url,params=parameters)
         if response.status_code == 200:
             data = response.json()
-
+            
             daily_forecast = {}
             for entry in data['list']:
                 date = datetime.fromtimestamp(entry['dt']).strftime('%Y-%m-%d')
@@ -75,6 +74,7 @@ def daily(city):
                     daily_forecast[date] = {
                         'date': date,
                         'icon': entry['weather'][0]['icon'],
+                        'feels like': entry['main']['feels_like'],
                         'temp_min': entry['main']['temp_min'],
                         'temp_max': entry['main']['temp_max'],
                     }
@@ -84,7 +84,6 @@ def daily(city):
 
             daily_forecast_list = list(daily_forecast.values())
             daily_forecast_list.sort(key=lambda x: datetime.strptime(x['date'], '%Y-%m-%d'))
-            print(daily_forecast_list)
             return daily_forecast_list
         else: 
             return None
@@ -95,8 +94,6 @@ def detail(request,city):
     forecast = daily(city)
     weather_data_result = get_weather_data(city)
     if weather_data_result and forecast:
-        weather_data = json.dumps(forecast,indent=4)
-        print(weather_data)
         city = weather_data_result['name']
         weather = weather_data_result['weather'][0]['main']
         temperature = round(weather_data_result['main']['temp'])
@@ -110,6 +107,7 @@ def detail(request,city):
                 'icon':f"https://openweathermap.org/img/wn/{day['icon']}@2x.png",
                 'temp_min': round(day['temp_min'],),
                 'temp_max': round(day['temp_max']),
+                'feels_like': round(day['feels like']),
             }
             forecast_data.append(day_weather)
     else:

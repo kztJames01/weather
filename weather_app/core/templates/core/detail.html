@@ -19,17 +19,21 @@
             <p>H: {{temp_max}}&deg; L: {{temp_min}}&deg;</p>
         </div>
     </div>
-    <div class="overflow-y-auto h-2/3 w-4/5 md:w-3/5 lg:w[-35%] justify-between bg-[#0198afb6] p-3 backdrop-blur-2xl rounded-2xl shadow-2xl">
+    <div class="overflow-y-auto h-2/3 w-4/5 md:w-3/5 lg:w[-35%] justify-around bg-[#0198afb6] p-3 backdrop-blur-2xl rounded-2xl shadow-2xl">
         <ion-icon class="text-white/50" name="calendar"></ion-icon>
-        <p class="text-white/50"> 10 DAY FORECAST </p>
+        <p class="text-white/50"> WEEKLY FORECAST </p>
         <ul>
             {% for day in forecast %}
-                <li class="flex justify-between text-white font-semibold items-center">
+                <li class="flex justify-around text-white font-semibold items-center">
                     <p>{{day.date}}</p>
-                    <img src="{{day.icon}}" alt="">
-                    <p>{{day.temp_min}}&deg;C</p>
-                    <p>{{day.temp_max}}&deg;C</p>
+                    <div class="w-1/6 h-1/4 justify-start">
+                        <img src="{{day.icon}}" alt="">
+                    </div>
+                    <p class="text-white/50">{{day.temp_min}}&deg;C</p>
+                    <p class="text-white">{{day.temp_max}}&deg;C</p>
                 </li>
+                <p class="text-white font-semibold justify-around">Feels like: {{day.feels_like}}&deg;C</p>
+                <div class="h-0.5 w-full bg-white/30"></div>
             {% endfor %}
         </ul>
     </div>
