@@ -2,7 +2,36 @@
 
 {% block title %}Weather{% endblock %}
 {% block content %}
+    <div class="flex gap-2 w-4/5 md:w-3/5 lg:w[-35%] justify-start h-5">
+        <a href="{% url 'core:index' %}" class="flex text-xl text-white p-2">
+            <ion-icon name="arrow-back" class="w-5 h-5 p-2 rounded-full backdrop-blur-sm"></ion-icon>
+            <p>Back</p>
+        </a>
+    </div>
     
-    <h1 class="text-white text-2xl font-semibold">{{city}}</h1>
-
+    <div class="flex text-white gap-2 w-4/5 md:w-3/5 lg:w[-35%] justify-center">
+        <div class="flex-col w-fit ">
+            <h1 id="center" class="text-white text-xl font-semibold">{{city}}</h1>
+            <p class="text-7xl">
+                {{temperature}} &deg;
+            </p>
+            <p>{{ weather }}</p>
+            <p>H: {{temp_max}}&deg; L: {{temp_min}}&deg;</p>
+        </div>
+    </div>
+    <div class="w-4/5 md:w-3/5 lg:w[-35%] justify-between bg-[#0198afb6] p-3 backdrop-blur-2xl rounded-2xl shadow-2xl">
+        <ion-icon class="text-white/50" name="calendar"></ion-icon>
+        <p class="text-white/50"> 10 DAY FORECAST </p>
+        <ul>
+            {% for day in forecast %}
+                <li class="flex justify-between">
+                    <p>{{day.date}}</p>
+                    <img src="{{day.icon}}" alt="">
+                    <p>{{day.temp_min}}&deg;</p>
+                    <p>{{day.temp_max}}&deg;</p>
+                </li>
+            {% endfor %}
+        </ul>
+        <p>hello?</p>
+    </div>
 {% endblock %}
