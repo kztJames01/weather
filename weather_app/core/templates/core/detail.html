@@ -19,7 +19,18 @@
             <p class="justify-around font-semibold text-xl">H: {{temp_max}}&deg; L: {{temp_min}}&deg;</p>
         </div>
     </div>
-    
+    <div
+        class="overflow-x-auto h-1/4 inline-block text-white font-semibold w-4/5 md:w-3/5 lg:w[-35%] justify-center items-center bg-white/20 p-2 backdrop-blur-sm rounded-2xl shadow-2xl">
+        <div class="flex space-x-2 items-center">
+            {% for hour in hourly_forecast %}
+            <div class="flex-col px-4 ">
+                <p>{{hour.dt_time}}</p>
+                <img src="{{hour.icon}}" alt="weather image" class="w-12 h-12">
+                <p>{{hour.temperature}}&deg;C</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
     <div class="overflow-y-auto  h-2/3 w-4/5 md:w-3/5 lg:w[-35%] justify-around bg-[#0198afb6] p-3 backdrop-blur-2xl rounded-2xl shadow-2xl">
         <ion-icon class="text-white/50" name="calendar"></ion-icon>
         <p class="text-white/50"> WEEKLY FORECAST </p>
