@@ -53,6 +53,25 @@ def index(request):
         'humidity': humidity,
         'temperature': temperature,
     })
+
+def hourly(city):
+    Api_key = "d58c475f4f008441996e9bb1a2343ed3"
+    #Api_key = "2b460c2135a2d363006e86ad30592fdf"
+    base_url = f"https://api.openweathermap.org/data/2.5/forecast"
+    parameters = {
+        'q' : city,
+        'appid' : Api_key,
+        'units' : 'metric',
+    }
+    try:
+        response = requests.get(base_url,params=parameters)
+        if response.status_code == 200:
+            return response.json()
+        else: 
+            return None
+    except requests.exceptions.RequestException as e:
+        response = None
+
 def daily(city):
     Api_key = "d58c475f4f008441996e9bb1a2343ed3"
     #Api_key = "2b460c2135a2d363006e86ad30592fdf"
@@ -93,6 +112,7 @@ def daily(city):
 def detail(request,city):
     forecast = daily(city)
     weather_data_result = get_weather_data(city)
+    hours = hourly(city)
     if weather_data_result and forecast:
         city = weather_data_result['name']
         weather = weather_data_result['weather'][0]['main']
@@ -112,7 +132,22 @@ def detail(request,city):
             forecast_data.append(day_weather)
     else:
         return render(request, 'core/detail.html')
+
+    if hours:
+        hourly_forecast = []
+        for hour in hours['list']:
+            hourly_forecast.append({
+                'time': datetime.fromtimestamp(hour['dt']).strftime('%Y-%m-%d'),
+                'icon':f"https://openweathermap.org/img/wn/{hour['weather'][0]['icon']}@2x.png",
+                'temperature': round(hour['main']['temp']),
+                'dt_time': datetime.strptime(hour['dt_txt'], '%Y-%m-%d %H:%M:%S').strftime('%I %p').lstrip('0')
+            })
+
+        hourly_forecast.sort(key=lambda x: x['time'])
+        hourly_forecast = hourly_forecast[:10]
+
     return render(request,'core/detail.html', {
+        'hourly_forecast':hourly_forecast,
         'city':city,
         'weather':weather,
         'temperature':temperature,

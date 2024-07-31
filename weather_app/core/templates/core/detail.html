@@ -9,17 +9,18 @@
         </a>
     </div>
     
-    <div class="flex text-white gap-2 w-4/5 md:w-3/5 lg:w[-35%] justify-center">
-        <div class="flex-col w-fit ">
-            <h1 id="center" class="text-white text-xl font-semibold">{{city}}</h1>
-            <p class="text-7xl">
-                {{temperature}} &deg;
+    <div class="flex inline-block text-white gap-2 w-4/5 md:w-3/5 lg:w[-35%] justify-center">
+        <div class="flex-col justify-around w-fit">
+            <p class="text-white text-2xl justify-around font-semibold">{{city}}</p>
+            <p class="text-8xl">
+                {{temperature}}&deg;
             </p>
-            <p>{{ weather }}</p>
-            <p>H: {{temp_max}}&deg; L: {{temp_min}}&deg;</p>
+            <p class="justify-around font-semibold text-xl">{{ weather }}</p>
+            <p class="justify-around font-semibold text-xl">H: {{temp_max}}&deg; L: {{temp_min}}&deg;</p>
         </div>
     </div>
-    <div class="overflow-y-auto h-2/3 w-4/5 md:w-3/5 lg:w[-35%] justify-around bg-[#0198afb6] p-3 backdrop-blur-2xl rounded-2xl shadow-2xl">
+    
+    <div class="overflow-y-auto  h-2/3 w-4/5 md:w-3/5 lg:w[-35%] justify-around bg-[#0198afb6] p-3 backdrop-blur-2xl rounded-2xl shadow-2xl">
         <ion-icon class="text-white/50" name="calendar"></ion-icon>
         <p class="text-white/50"> WEEKLY FORECAST </p>
         <ul>
