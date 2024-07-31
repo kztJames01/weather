@@ -2,7 +2,7 @@
 {% load static %}
 {% block title %}| Weather{% endblock %}
 {% block content %}
-    <form action="" class="flex gap-2 w-4/5 md:w-3/5 lg:w[-35%] items-center justify-center" method="get">
+    <form action="" class="flex gap-2 w-4/5 md:w-3/5 lg:w-2/5 items-center justify-center" method="get">
         <input type="text" name="city"
             class="py-2 px-3 w-full rounded-full bg-white text-black text-lg outline ease-in-out duration-500 outline-3 outline-white/70 backdrop-blur-lg focus:bg-white/20"
             placeholder="Enter a city...">
@@ -30,7 +30,7 @@
     </a>
     
     <div
-        class="flex w-full justify-between bg-[#0198afb6] p-3 backdrop-blur-2xl rounded-2xl shadow-2xl cursor-pointer ease-in-out duration-500 hover:scale-[105%] md:w-3/5 lg:w-[35%]">
+        class="flex justify-between bg-[#0198afb6] p-3 backdrop-blur-2xl rounded-2xl shadow-2xl cursor-pointer ease-in-out duration-500 hover:scale-[105%] w-4/5 md:w-3/5 lg:w-[35%]">
         <div id="left" class="flex flex-col justify-start">
             <img src="{{ icon_url }}" alt="">
             <p class="font-bold text-4xl text-white">{{weather}}</p>

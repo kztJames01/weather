@@ -140,11 +140,11 @@ def detail(request,city):
                 'time': datetime.fromtimestamp(hour['dt']).strftime('%Y-%m-%d'),
                 'icon':f"https://openweathermap.org/img/wn/{hour['weather'][0]['icon']}@2x.png",
                 'temperature': round(hour['main']['temp']),
-                'dt_time': datetime.strptime(hour['dt_txt'], '%Y-%m-%d %H:%M:%S').strftime('%I %p').lstrip('0')
+                'dt_time': datetime.strptime(hour['dt_txt'], '%Y-%m-%d %H:%M:%S').strftime('%I%p').lstrip('0')
             })
 
         hourly_forecast.sort(key=lambda x: x['time'])
-        hourly_forecast = hourly_forecast[:10]
+        hourly_forecast = hourly_forecast[:15]
 
     return render(request,'core/detail.html', {
         'hourly_forecast':hourly_forecast,
