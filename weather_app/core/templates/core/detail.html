@@ -10,7 +10,7 @@
     
     <div class="flex text-white gap-2 w-4/5 md:w-3/5 lg:w[-35%] justify-center">
         <div class="flex flex-col justify-center items-center w-fit">
-            <p class="text-white text-2xl justify-around font-semibold">{{city}}</p>
+            <p class="text-white text-2xl justify-around font-semibold">{{city}}, {{current}}</p>
             <p class="text-8xl">
                 {{temperature}}&deg;
             </p>
@@ -20,6 +20,7 @@
     </div>
     <div
         class="overflow-x-auto h-1/5  text-white font-semibold w-4/5 md:w-3/5 lg:w-2/5 justify-center items-center bg-white/20 p-2 backdrop-blur-sm rounded-2xl shadow-2xl">
+        
         <div class="flex space-x-2 w-fit">
             {% for hour in hourly_forecast %}
             <div class="flex-col justify-around px-4">
@@ -33,14 +34,18 @@
     <div class="overflow-y-auto  h-2/3 w-4/5 md:w-3/5 lg:w-2/5 justify-around bg-[#0198afb6] p-3 backdrop-blur-2xl rounded-2xl shadow-2xl">
         <ion-icon class="text-white/50" name="calendar"></ion-icon>
         <p class="text-white/50"> WEEKLY FORECAST </p>
+        <div class="h-0.5 w-full bg-white/30"></div>
         <ul>
             {% for day in forecast %}
                 <li class="flex justify-around text-white font-semibold items-center">
-                    <p>{{day.date}}</p>
+                    <p class="w-1/6">{{day.date}}</p>
                     <div class="w-1/6 h-1/4 justify-start">
                         <img src="{{day.icon}}" alt="">
                     </div>
                     <p class="text-white/50">{{day.temp_min}}&deg;C</p>
+                    <div class="w-1/4 bg-white/50 rounded-full">
+                        <div class="h-1 bg-orange-500 rounded-xl top-0 left-0 w-{{day.bar}}/5" ></div>
+                    </div>
                     <p class="text-white">{{day.temp_max}}&deg;C</p>
                 </li>
                 <p class="text-white font-semibold justify-around">Feels like: {{day.feels_like}}&deg;C</p>

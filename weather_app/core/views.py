@@ -104,6 +104,7 @@ def daily(city):
                         'feels like': entry['main']['feels_like'],
                         'temp_min': entry['main']['temp_min'],
                         'temp_max': entry['main']['temp_max'],
+                        'temp': entry['main']['temp'],
                     }
                 else:
                     daily_forecast[date]['temp_min'] = min(daily_forecast[date]['temp_min'], entry['main']['temp_min'])
@@ -133,12 +134,19 @@ def detail(request,city):
         # Get forecast data from json
         forecast_data = []
         for day in forecast:
+            if (round(day['temp_max']) - round(day['temp_min'])) == 0:
+                bar = 5
+            else:
+                bar = ((round(day['temp_max']) - round(day['temp'])) / (round(day['temp_max']) - round(day['temp_min']))) * 5
+            result = round(bar)
+            print(result)
             day_weather = {
                 'date': datetime.strptime(day['date'], '%Y-%m-%d').strftime('%A'),
                 'icon':f"https://openweathermap.org/img/wn/{day['icon']}@2x.png",
                 'temp_min': round(day['temp_min'],),
                 'temp_max': round(day['temp_max']),
                 'feels_like': round(day['feels like']),
+                'bar': result,
             }
             forecast_data.append(day_weather)
     else:
@@ -156,10 +164,11 @@ def detail(request,city):
 
         hourly_forecast.sort(key=lambda x: x['time'])
         hourly_forecast = hourly_forecast[:15]
-
+        current = datetime.strptime(hourly_forecast[0]['time'], '%Y-%m-%d').strftime('%A, %B %d, %Y')
     return render(request,'core/detail.html', {
         'hourly_forecast':hourly_forecast,
         'city':city,
+        'current':current,
         'weather':weather,
         'temperature':temperature,
         'forecast':forecast_data,
