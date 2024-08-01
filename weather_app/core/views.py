@@ -24,6 +24,14 @@ def get_weather_data(city):
 def index(request):
     city = request.GET.get('city')
     icon_url = 'https://openweathermap.org/img/wn/10d@2x.png'
+    weather = None
+    weather_description = None
+    city_name = city
+    country = 'CR'
+    wind_speed = ''
+    pressure = ''
+    humidity = '0'
+    temperature = ""
     if city:
         weather_data_result = get_weather_data(city)
         if weather_data_result is not None:
@@ -31,7 +39,7 @@ def index(request):
             icon_url = f"https://openweathermap.org/img/wn/{icon_id}@2x.png"
             weather = weather_data_result['weather'][0]['main']
             weather_description = weather_data_result['weather'][0]['description']
-            city = weather_data_result['name']
+            city_name = weather_data_result['name']
             country = weather_data_result['sys']['country']
             wind_speed = weather_data_result['wind']['speed']
             pressure = weather_data_result['main']['pressure']
@@ -46,7 +54,7 @@ def index(request):
         'icon_url':icon_url,
         'weather': weather,
         'weather_description': weather_description,
-        'city':city,
+        'city':city_name,
         'country':country,
         'wind_speed': wind_speed,
         'pressure' : pressure,
@@ -109,7 +117,10 @@ def daily(city):
     except requests.exceptions.RequestException as e:
         response = None
 
+    
+
 def detail(request,city):
+
     forecast = daily(city)
     weather_data_result = get_weather_data(city)
     hours = hourly(city)
