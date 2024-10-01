@@ -1,9 +1,9 @@
 from django.shortcuts import render
 import requests
-import json
+import os
 from datetime import datetime
 def get_weather_data(city):
-    Api_key = "d58c475f4f008441996e9bb1a2343ed3"
+    Api_key = str(os.getenv('API_KEY'))
     base_url = f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={Api_key}"
     parameters = {
         'q' : city,
@@ -63,7 +63,7 @@ def index(request):
     })
 
 def hourly(city):
-    Api_key = "d58c475f4f008441996e9bb1a2343ed3"
+    Api_key = str(os.getenv('API_KEY'))
     #Api_key = "2b460c2135a2d363006e86ad30592fdf"
     base_url = f"https://api.openweathermap.org/data/2.5/forecast"
     parameters = {
@@ -81,8 +81,8 @@ def hourly(city):
         response = None
 
 def daily(city):
-    Api_key = "d58c475f4f008441996e9bb1a2343ed3"
-    #Api_key = "2b460c2135a2d363006e86ad30592fdf"
+    Api_key = str(os.getenv('API_KEY'))
+    
     base_url = f"https://api.openweathermap.org/data/2.5/forecast"
     parameters = {
         'q' : city,
